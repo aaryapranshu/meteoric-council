@@ -1,0 +1,3 @@
+REBUTTAL — CFO: Hormozi's fix for the risk he names does not hold. He says to fix the activation point first, then bill an opt-out retainer from month 4. The activation point is not fixed today, and nobody knows how many clients hit a result. Opt-out renewal with no result is how you get refunds. His own warning about $1.5-3K/month retainers lasting 4-6 months, with no fee data, argues for B's selectivity. His week 6/8/end ask pattern also fits B as well as A.
+
+I'd move to A if Moksh shows: renewal above 60% at a high fee, delivery cost per retainer client low enough for healthy margin, and most clients showing a measurable win by week 6.

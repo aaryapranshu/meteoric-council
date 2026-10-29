@@ -1,0 +1,75 @@
+METEORIC COUNCIL — A FULCRUMOS MODULE
+PROPRIETARY SOFTWARE LICENCE
+
+Copyright (c) 2026 Fulcrum Labs Technologies Private Limited. All rights reserved.
+
+1. OWNERSHIP
+
+The Meteoric Council, FulcrumOS, the Fulcrum Framework(TM), and every file in this
+repository that is not marked as third-party (together, the
+"System") are the proprietary intellectual property of Fulcrum Labs
+Technologies Private Limited ("Fulcrum Labs"). This includes, without
+limitation, the operating manual (CLAUDE.md), the skills authored by Fulcrum
+Labs, the playbook, the intake and scaffolding design, the scoring models,
+the council design, and the structure and arrangement of the System as a
+whole.
+
+The System is licensed, not sold. No title or ownership passes to anyone.
+
+2. WHO MAY USE IT
+
+This build was prepared for Mr. Moksh Vasant of Meteoric Boost
+(the "Licensee"). Fulcrum Labs grants the Licensee a personal,
+non-exclusive, non-transferable, revocable licence to install and use the
+System for the Licensee's own business purposes.
+
+Nobody else is granted any right to use, copy or run the System. The fact
+that this repository can be viewed or downloaded does not grant a licence.
+
+3. WHAT IS NOT ALLOWED
+
+Without prior written permission from Fulcrum Labs, no person may:
+
+  a. copy, reproduce, mirror, fork or re-host the System or any part of it,
+     except for the Licensee's own installation and backups;
+  b. distribute, sublicense, sell, rent, lend or otherwise make the System
+     available to any third party;
+  c. create derivative works, or rebuild, port, translate or re-implement
+     the System or its methods for any other person, company or platform;
+  d. use the System, or its outputs describing the System's design, to
+     build or train a competing product or service;
+  e. remove, alter or obscure any copyright, trademark or proprietary
+     notice.
+
+4. THE LICENSEE'S OWN DATA
+
+Everything the Licensee adds to the System — business context, documents,
+decisions, files, and anything the System produces from them — belongs to
+the Licensee. Fulcrum Labs claims no rights over it.
+
+5. THIRD-PARTY COMPONENTS
+
+Some skills bundled in this repository were written by others and are
+distributed under their own open-source licences. They are listed in
+THIRD-PARTY-LICENSES.md, and each keeps its original licence file. This
+licence does not apply to them and does not restrict rights their authors
+have granted.
+
+6. NO WARRANTY
+
+The System is provided "as is", without warranty of any kind. It is an
+assistant, not an adviser. It does not give legal, financial, tax or
+investment advice. The Licensee remains responsible for every decision made
+and every document issued. To the extent the law allows, Fulcrum Labs is not
+liable for any loss arising from use of the System.
+
+7. TERMINATION
+
+This licence ends automatically if its terms are breached. On termination,
+all copies of the System must be deleted. Section 4 survives.
+
+8. GOVERNING LAW
+
+This licence is governed by the laws of India.
+
+Permissions and enquiries: Fulcrum Labs Technologies Private Limited.

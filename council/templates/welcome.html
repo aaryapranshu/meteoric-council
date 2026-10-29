@@ -1,0 +1,347 @@
+<title>Meteoric Council</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!--FONTS--><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap"><!--/FONTS-->
+<style>
+/* Layout (theme tokens come from the owner's brand, injected by build_welcome.py): a council chamber. The owner's goal up top, the room as a seating plan around the orchestrator, then what to ask, the week's rituals, and what the council can't see yet. */
+/*THEME*/
+:root{
+  --bg:#F0EDE4; --surface:#E9E5DB; --ink:#0A0A0A; --mute:#5E5B53; --line:#0A0A0A26;
+  --panel:#0D0D0D; --on-panel:#F0EDE4; --on-panel-mute:#A6A297; --accent:#F5C500; --on-accent:#0A0A0A; --accent-ink:#8A6600;
+  --seed:#7A8F80; --warn:#C28F00;
+  --display:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --serif:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0A0A0A; --surface:#141414; --ink:#F0EDE4; --mute:#9C998F; --line:#F0EDE41F;
+  --panel:#1C1C1C; --on-panel:#F0EDE4; --on-panel-mute:#9C998F; --accent:#F5C500; --on-accent:#0A0A0A; --accent-ink:#F5C500;
+  --seed:#7A8F80; --warn:#F5C500; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A0A0A; --surface:#141414; --ink:#F0EDE4; --mute:#9C998F; --line:#F0EDE41F;
+  --panel:#1C1C1C; --on-panel:#F0EDE4; --on-panel-mute:#9C998F; --accent:#F5C500; --on-accent:#0A0A0A; --accent-ink:#F5C500;
+  --seed:#7A8F80; --warn:#F5C500; color-scheme:dark}
+/*/THEME*/
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.55;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.02em}
+h1{font-weight:900;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.02}
+h2{font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);line-height:1.08}
+h3{font-weight:600;font-size:1.05rem;line-height:1.25}
+em{font-family:var(--serif);font-style:normal;color:var(--accent-ink)}
+p{margin:0}
+.hl{background:linear-gradient(transparent 14%,var(--accent) 14%,var(--accent) 90%,transparent 90%);color:var(--on-accent);padding:0 .1em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.label{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
+.brand .mark{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--accent)}
+section{display:flex;flex-direction:column;gap:20px}
+.sechead{display:flex;flex-direction:column;gap:8px;max-width:62ch}
+.sechead p{color:var(--mute)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;align-items:end}
+.hero .lede{font-size:1.15rem;max-width:56ch;margin-top:18px}
+.goal{background:var(--panel);color:var(--on-panel);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.goal .label{color:var(--on-panel-mute)}
+.goal blockquote{margin:0;font-weight:800;font-size:1.55rem;line-height:1.18;letter-spacing:-.02em}
+.goal .why{font-size:.92rem;color:var(--on-panel-mute)}
+.goal .num{font-family:var(--mono);font-size:.85rem;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:4px 10px;align-self:flex-start;font-weight:600}
+
+/* the room */
+.room{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.chair{grid-column:2;grid-row:1/span 2;background:var(--panel);color:var(--on-panel);border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:center;gap:10px;text-align:center}
+.chair .label{color:var(--accent)}
+.chair em,.coach em{color:var(--accent)}
+.chair h3{font-size:1.5rem;font-weight:800}
+.chair p{font-size:.9rem;color:var(--on-panel-mute)}
+.group{display:flex;flex-direction:column;gap:10px;min-width:0}
+.group>.label{padding-left:2px}
+.seat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.seat .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.seat p{font-size:.88rem;color:var(--mute)}
+.pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:3px 8px;white-space:nowrap;border:1px solid var(--line);color:var(--mute)}
+.pill.live{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.pill.seed{border-style:dashed;color:var(--seed);border-color:var(--seed)}
+.pill.queued{border-color:var(--warn);color:var(--warn)}
+.room .g-dept{grid-column:1;grid-row:1/span 2}
+.room .g-adv{grid-column:3;grid-row:1/span 2}
+.room .g-check{grid-column:1/span 3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.room .g-check>.label{grid-column:1/-1}
+
+/* ask */
+.asks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ask{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ask .who{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.ask code{font-family:var(--mono);font-size:.86rem;line-height:1.5;white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.ask p{font-size:.86rem;color:var(--mute)}
+.asks .ask:first-child{grid-column:1/-1;background:var(--panel);border-color:var(--panel)}
+.asks .ask:first-child code{color:var(--on-panel);font-size:.95rem}
+.asks .ask:first-child p,.asks .ask:first-child .label{color:var(--on-panel-mute)}
+.asks .ask:first-child button.copy{color:var(--on-panel);border-color:var(--on-panel-mute)}
+button.copy{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:5px 10px;cursor:pointer}
+button.copy:hover{border-color:var(--ink)}
+button.copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+button.copy.done{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+
+/* rituals */
+.week{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rit{border-top:2px solid var(--ink);padding-top:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.rit .when{font-family:var(--mono);font-size:.8rem;color:var(--mute)}
+.rit h3{font-size:1.25rem;font-weight:800}
+.rit p{font-size:.9rem}
+.rit .say{font-family:var(--mono);font-size:.8rem;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;align-self:flex-start}
+
+/* coach + gaps */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.coach{background:var(--panel);color:var(--on-panel);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.coach .label{color:var(--on-panel-mute)}
+.coach h3{font-size:1.5rem;font-weight:800}
+.coach p{color:var(--on-panel-mute);font-size:.92rem}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.steps li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;font-size:.9rem;align-items:start}
+.steps .dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--on-panel-mute);margin-top:4px}
+.steps .done .dot{background:var(--accent);border-color:var(--accent)}
+.gaps{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.gap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.gap h3{font-size:1rem}
+.gap p{grid-column:1/-1;font-size:.88rem;color:var(--mute)}
+.gap .fix{font-family:var(--mono);font-size:.74rem;color:var(--ink)}
+
+/* interview + councils */
+.qa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.qa div{border-left:3px solid var(--accent);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.qa .q{font-size:.8rem;color:var(--mute)}
+.qa .a{font-weight:600;font-size:1.1rem;line-height:1.35}
+.tbl{overflow-x:auto;border-top:2px solid var(--ink)}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:600;padding:12px 12px 8px 0}
+td{border-top:1px solid var(--line);padding:12px 12px 12px 0;vertical-align:top;font-size:.92rem}
+td.k{font-weight:800;white-space:nowrap}
+td.say{font-family:var(--mono);font-size:.84rem}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--mute);font-size:.82rem;border-top:1px solid var(--line);padding-top:18px}
+.example{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--warn);border:1px dashed var(--warn);border-radius:999px;padding:3px 10px}
+
+@media (max-width:820px){
+  .hero,.split{grid-template-columns:minmax(0,1fr)}
+  .room{grid-template-columns:minmax(0,1fr)}
+  .chair,.room .g-dept,.room .g-adv,.room .g-check{grid-column:1;grid-row:auto}
+  .room .g-check{grid-template-columns:minmax(0,1fr)}
+  .week,.asks,.qa{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .seat,.ask{transition:border-color .15s ease}
+  .seat:hover,.ask:hover{border-color:var(--ink)}
+}
+</style>
+
+<div class="wrap" id="app">
+  <div class="top">
+    <div class="brand"><span class="mark" aria-hidden="true"></span><span id="brandname">Meteoric Boost</span></div>
+    <div class="label" id="meta"></div>
+  </div>
+
+  <header class="hero">
+    <div>
+      <span class="label" id="eyebrow"></span>
+      <h1 id="headline" style="margin-top:12px"></h1>
+      <p class="lede" id="lede"></p>
+    </div>
+    <aside class="goal" aria-label="Your goal">
+      <span class="label">What you want from the council</span>
+      <blockquote id="goal"></blockquote>
+      <span class="num" id="goalnum"></span>
+      <p class="why" id="goalwhy"></p>
+    </aside>
+  </header>
+
+  <section>
+    <div class="sechead">
+      <span class="label">The room</span>
+      <h2>Who's sitting for you, <em>and what each one is watching.</em></h2>
+      <p>Every seat read your OS before this page was made. The line under each name is what that seat will keep an eye on for you.</p>
+    </div>
+    <div class="room" id="room"></div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <span class="label">Ask it this first</span>
+      <h2>Five questions, <em>written from your own context.</em></h2>
+      <p>Copy one into a new chat in your OS. Each goes to the council named on it.</p>
+    </div>
+    <div class="asks" id="asks"></div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <span class="label">Your week with it</span>
+      <h2>Three rituals. <em>The seats get sharper each time.</em></h2>
+    </div>
+    <div class="week" id="week"></div>
+  </section>
+
+  <section class="split">
+    <div class="coach" id="coach"></div>
+    <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+      <div class="sechead">
+        <span class="label">What it can't see yet</span>
+        <h2>Fill these and the room <em>stops guessing.</em></h2>
+      </div>
+      <div class="gaps" id="gaps"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <span class="label">What you told it</span>
+      <h2>Your setup, <em>in your words.</em></h2>
+    </div>
+    <div class="qa" id="qa"></div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <span class="label">How to call it</span>
+      <h2>One sentence <em>calls any council.</em></h2>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Council</th><th>Who sits</th><th>Try</th></tr></thead>
+      <tbody id="councils"></tbody>
+    </table></div>
+  </section>
+
+  <div class="foot">
+    <span id="footl"></span>
+    <span>Advisors are unofficial simulations built from public work. You decide; the council recommends.</span>
+  </div>
+</div>
+
+<script type="application/json" id="council-data">
+{
+  "example": true,
+  "owner": {"first": "Moksh", "business": "Meteoric Boost", "date": "29 Oct 2026"},
+  "headline": "Moksh, your council <em>is seated.</em>",
+  "lede": "It read your OS, your public record and your answers. Four department heads, four outside minds and two checks, each holding a small, sharp slice of Meteoric. Ask once and the whole room answers.",
+  "goal": {"text": "Move Meteoric to recurring retainers with fewer, better clients.", "number": "Six figures a month recurring", "why": "Your Aug 2026 goal, on the record. Every memo is measured against it."},
+  "seats": [
+    {"group": "dept", "name": "CFO", "status": "live", "watching": "Cash per client after freelancers, and whether a retainer fee clears your margin floor."},
+    {"group": "dept", "name": "CMO", "status": "live", "watching": "Which format is doing which job. Reach reels, ICP problem content, story sequences, the new ads."},
+    {"group": "dept", "name": "Head of Sales", "status": "live", "watching": "Show rate and close rate by closer, and every objection that should become content."},
+    {"group": "dept", "name": "Head of Fulfilment", "status": "live", "watching": "Every client on a green to red board, and who's showing a result by week 6."},
+    {"group": "adv", "name": "Alex Hormozi", "status": "live", "watching": "Your money model: the retainer as a continuity offer, and the one constraint."},
+    {"group": "adv", "name": "Jeremy Haynes", "status": "live", "watching": "Whether paid traffic gets the same sales process your organic leads get."},
+    {"group": "adv", "name": "Nik Setting", "status": "live", "watching": "Your profile as the landing page, and story sequence drop-off slide by slide."},
+    {"group": "adv", "name": "Alex (mindset coach)", "status": "queued", "watching": "Building from your sessions. Until then it runs on your own mindset models."},
+    {"group": "check", "name": "You, on the record", "status": "live", "watching": "122 of your own mental models. It flags when the room asks you to break one."},
+    {"group": "check", "name": "Devil's advocate", "status": "live", "watching": "Assumes every plan already failed, and finds the early sign before you commit."}
+  ],
+  "asks": [
+    {"council": "Full board", "prompt": "full board: should every new client get the Compound retainer from January, now that you can see my real renewal numbers?", "why": "Your August goal, re-run with real data instead of the public record."},
+    {"council": "Marketing", "prompt": "marketing council: where should the next ₹10L of ad spend go, profile and story ads or a VSL and application funnel?", "why": "Nik and Haynes disagree on this one. That's the point."},
+    {"council": "Sales", "prompt": "sales council: what would it take to lift show rate by 10 points in 30 days?", "why": "Rates before volume, every time."},
+    {"council": "Fulfilment", "prompt": "fulfilment council: score every active client green, yellow or red and tell me what turns each red one yellow this week.", "why": "Your Miro rule, automated."},
+    {"council": "Finance", "prompt": "finance council: is November the right month to launch the events company, given cash and team load?", "why": "A real cheque with a real date."}
+  ],
+  "rituals": [
+    {"name": "EOD game", "when": "Daily · after 7:30pm", "body": "Five rounds, about four minutes. The brain pre-fills your day, you confirm, and it posts to your EOD chat.", "say": "EOD game"},
+    {"name": "Money game", "when": "Mondays · 10:00", "body": "Your finance hour with the CFO seat. Ends with a Financial Fitness Score that has to go up.", "say": "money game"},
+    {"name": "Weekly review", "when": "Sundays · after the EOD", "body": "All four heads report at once: the scoreboard, the red board, three decisions for the week.", "say": "weekly review"}
+  ],
+  "coach": {"name": "Alex", "status": "Queued", "summary": "Your coach's brain builds from your own sessions, so the seat thinks the way your coach does: the questions they always ask you and the patterns they've named in you.", "steps": [{"text": "Coach named in the interview", "done": true}, {"text": "Sessions found in your Fathom calls", "done": false}, {"text": "Brain built and tested with three questions", "done": false}], "next": "build my mindset coach's brain"},
+  "gaps": [
+    {"what": "Renewal rate after month 3", "why": "The retainer decision turns on it. Every seat said so.", "fix": "fulfilment council"},
+    {"what": "Fee and cost to deliver per client", "why": "The CFO can't check your margin floor without it.", "fix": "money game"},
+    {"what": "Pipeline sheet", "why": "Sales is reading EODs only until a sheet is connected.", "fix": "connect my sales sheet"}
+  ],
+  "answers": [
+    {"q": "What should the council do for you in 90 days?", "a": "Get Meteoric onto retainers without breaking fulfilment."},
+    {"q": "Your mindset coach", "a": "Alex. Sessions are on Fathom."},
+    {"q": "Where your EOD goes", "a": "The Meteoric EOD WhatsApp group."},
+    {"q": "Your human CFO", "a": "Monday calls, recorded on Fathom."}
+  ],
+  "councils": [
+    {"name": "Finance", "seats": "CFO · Hormozi · you on the record · devil's advocate", "try": "finance council: can we afford a second closer?"},
+    {"name": "Marketing", "seats": "CMO · Nik Setting · Jeremy Haynes · Hormozi · you on the record", "try": "marketing council: double down on the millionaire series?"},
+    {"name": "Sales", "seats": "Head of Sales · Hormozi · Jeremy Haynes · devil's advocate", "try": "sales council: why did show rate drop?"},
+    {"name": "Fulfilment", "seats": "Head of Fulfilment · Hormozi · mindset coach · you on the record", "try": "fulfilment council: three clients went quiet. What now?"},
+    {"name": "The board", "seats": "All four heads · two best-fit advisors · both checks", "try": "full board: events company in November or March?"},
+    {"name": "Quick take", "seats": "One seat, a straight answer", "try": "what would Hormozi say about my pricing?"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var d;
+  try { d = JSON.parse(document.getElementById('council-data').textContent); } catch (e) { return; }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  // headline may carry <em>; everything else is escaped
+  function rich(s){ return esc(s).replace(/&lt;em&gt;/g,'<em>').replace(/&lt;\/em&gt;/g,'</em>'); }
+  function $(id){ return document.getElementById(id); }
+
+  $('brandname').textContent = d.owner.business;
+  $('meta').textContent = 'Prepared for ' + d.owner.first + ' · ' + d.owner.date;
+  $('eyebrow').innerHTML = esc(d.councilName || 'Meteoric Council') + (d.example ? ' &nbsp;<span class="example">Preview, example answers</span>' : '');
+  $('headline').innerHTML = rich(d.headline);
+  $('lede').textContent = d.lede;
+  $('goal').textContent = d.goal.text;
+  $('goalnum').textContent = d.goal.number;
+  if (!d.goal.number) $('goalnum').hidden = true;
+  $('goalwhy').textContent = d.goal.why;
+
+  var labels = {live:'Live', seed:'Seed', queued:'Building'};
+  function seat(s){
+    return '<div class="seat"><div class="row"><h3>' + esc(s.name) + '</h3><span class="pill ' + esc(s.status) + '">' + esc(labels[s.status] || s.status) + '</span></div><p>' + esc(s.watching) + '</p></div>';
+  }
+  function group(key, title, cls){
+    var list = d.seats.filter(function(s){ return s.group === key; });
+    return '<div class="group ' + cls + '"><span class="label">' + title + '</span>' + list.map(seat).join('') + '</div>';
+  }
+  $('room').innerHTML =
+    group('dept', 'Department heads', 'g-dept') +
+    '<div class="chair"><span class="label">The orchestrator</span><h3>You ask once.<br><em>The room answers.</em></h3><p>Picks the seats, briefs them once, runs them in parallel, makes them argue, hands you one memo.</p></div>' +
+    group('adv', 'Advisors', 'g-adv') +
+    group('check', 'Checks', 'g-check');
+
+  $('asks').innerHTML = d.asks.map(function(a, i){
+    return '<div class="ask"><div class="who"><span class="label">' + esc(a.council) + '</span><button class="copy" type="button" id="copy-' + i + '" data-i="' + i + '">Copy</button></div><code id="prompt-' + i + '">' + esc(a.prompt) + '</code><p>' + esc(a.why) + '</p></div>';
+  }).join('');
+  $('asks').addEventListener('click', function(ev){
+    var b = ev.target.closest('button.copy'); if (!b) return;
+    var text = d.asks[+b.getAttribute('data-i')].prompt;
+    function ok(){ b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function(){ b.textContent = 'Copy'; b.classList.remove('done'); }, 1600); }
+    function fallback(){
+      var el = $('prompt-' + b.getAttribute('data-i')); var r = document.createRange(); r.selectNodeContents(el);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = 'Selected, copy it';
+    }
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (e) { fallback(); }
+  });
+
+  $('week').innerHTML = d.rituals.map(function(r){
+    return '<div class="rit"><span class="when">' + esc(r.when) + '</span><h3>' + esc(r.name) + '</h3><p>' + esc(r.body) + '</p><span class="say">say "' + esc(r.say) + '"</span></div>';
+  }).join('');
+
+  var c = d.coach;
+  $('coach').innerHTML = '<span class="label">Your mindset coach · ' + esc(c.status) + '</span><h3>' + esc(c.name) + '</h3><p>' + esc(c.summary) + '</p><ul class="steps">' +
+    c.steps.map(function(s){ return '<li class="' + (s.done ? 'done' : '') + '"><span class="dot"></span><span>' + esc(s.text) + '</span></li>'; }).join('') +
+    '</ul>' + (c.next ? '<p>Next: say <b style="color:var(--on-panel)">"' + esc(c.next) + '"</b></p>' : '');
+
+  $('gaps').innerHTML = d.gaps.length ? d.gaps.map(function(g){
+    return '<div class="gap"><h3>' + esc(g.what) + '</h3><span class="fix">' + esc(g.fix) + '</span><p>' + esc(g.why) + '</p></div>';
+  }).join('') : '<div class="gap"><h3>Nothing missing</h3><p>Every seat can see what it needs.</p></div>';
+
+  $('qa').innerHTML = d.answers.map(function(a){
+    return '<div><span class="q">' + esc(a.q) + '</span><span class="a">' + esc(a.a) + '</span></div>';
+  }).join('');
+
+  $('councils').innerHTML = d.councils.map(function(r){
+    return '<tr><td class="k">' + esc(r.name) + '</td><td>' + esc(r.seats) + '</td><td class="say">"' + esc(r.try) + '"</td></tr>';
+  }).join('');
+
+  $('footl').textContent = (d.councilName || 'Meteoric Council') + ' · built for ' + d.owner.first + ' by Fulcrum Labs on FulcrumOS';
+})();
+</script>
